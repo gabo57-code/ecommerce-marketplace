@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mis ventas - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/seller.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: seller-header(${store.seller.fullName})}"></header>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h1>Mis ventas</h1>
+            <p class="sub">Los productos de <strong th:text="${store.name}">tu tienda</strong> que ya compraron</p>
+        </div>
+    </div>
+
+    <section class="stats">
+        <div class="stat">
+            <div class="num">$ <span th:text="${#numbers.formatDecimal(revenue, 1, 'POINT', 0, 'COMMA')}">0</span></div>
+            <div class="lbl">Total vendido</div>
+        </div>
+        <div class="stat"><div class="num" th:text="${unitsSold}">0</div><div class="lbl">Unidades vendidas</div></div>
+        <div class="stat"><div class="num" th:text="${ordersCount}">0</div><div class="lbl">Pedidos recibidos</div></div>
+    </section>
+
+    <div class="card">
+        <div class="empty" th:if="${#lists.isEmpty(sales)}">
+            <h2>Aún no tienes ventas</h2>
+            <p>Cuando un comprador compre alguno de tus productos, aparecerá aquí.</p>
+            <a th:href="@{/seller/dashboard}" class="btn btn-link">Ver mis productos</a>
+        </div>
+
+        <div class="table-wrap" th:unless="${#lists.isEmpty(sales)}">
+            <table class="products">
+                <thead>
+                <tr>
+                    <th>Fecha</th><th>Pedido</th><th>Producto</th><th>Cant.</th>
+                    <th>Precio</th><th>Subtotal</th><th>Comprador / Envío</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${sales}">
+                    <td th:text="${#temporals.format(s.order.createdAt, 'dd/MM/yyyy HH:mm')}">fecha</td>
+                    <td>#<span th:text="${s.order.id}">1</span></td>
+                    <td>
+                        <div class="pname" th:text="${s.product.name}">Producto</div>
+                    </td>
+                    <td th:text="${s.quantity}">1</td>
+                    <td class="price">$ <span th:text="${#numbers.formatDecimal(s.unitPrice, 1, 'POINT', 0, 'COMMA')}">0</span></td>
+                    <td class="price">$ <span th:text="${#numbers.formatDecimal(s.unitPrice.multiply(new java.math.BigDecimal(s.quantity)), 1, 'POINT', 0, 'COMMA')}">0</span></td>
+                    <td>
+                        <div class="pname" th:text="${s.order.buyer.fullName}">Comprador</div>
+                        <div class="pcat" th:text="${s.order.address.street} + ', ' + ${s.order.address.city} + ' (' + ${s.order.address.department} + ')'">Dirección</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

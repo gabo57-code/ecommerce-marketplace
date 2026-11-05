@@ -1,0 +1,136 @@
+/* =====================================================================
+   LOGIN / REGISTRO - fondo animado, iconos flotantes con parallax,
+   palabra rotativa, notificaciones y tarjeta con pestañas.
+   ===================================================================== */
+
+body.lp {
+    margin: 0; min-height: 100vh; overflow-x: hidden; position: relative;
+    background: linear-gradient(120deg, #00C9A7, #0AA5C0, #5B6FD6, #845EC2, #00C9A7);
+    background-size: 300% 300%;
+    animation: lpShift 20s ease infinite;
+}
+@keyframes lpShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- Manchas de color difuminadas ---------- */
+.blob { position: fixed; border-radius: 50%; filter: blur(70px); opacity: .55; pointer-events: none; z-index: 0; animation: blobMove 18s ease-in-out infinite alternate; }
+.blob.b1 { width: 420px; height: 420px; background: #D65DB1; top: -120px; right: -80px; }
+.blob.b2 { width: 480px; height: 480px; background: #00C9A7; bottom: -160px; left: -120px; animation-delay: -6s; }
+.blob.b3 { width: 320px; height: 320px; background: #F9F871; opacity: .25; top: 40%; left: 38%; animation-delay: -11s; }
+@keyframes blobMove {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, -50px) scale(1.15); }
+}
+
+/* ---------- Estructura ---------- */
+.lp-wrap {
+    position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr 1fr;
+    min-height: 100vh; max-width: 1280px; margin: 0 auto; padding: 0 24px;
+}
+
+/* ---------- Lado izquierdo (bienvenida) ---------- */
+.lp-hero { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 48px 24px 48px 8px; color: #fff; }
+.lp-hero > *:not(.stage) { position: relative; z-index: 1; }
+.lp-hero .brand { font-size: 1.7rem; align-self: flex-start; }
+.lp-hero .brand::before { background: #fff; color: var(--blue); width: 40px; height: 40px; }
+.lp-hero h1 {
+    margin: 30px 0 16px; font-size: clamp(2.2rem, 4.2vw, 3.6rem); line-height: 1.1; font-weight: 800;
+    text-shadow: 0 4px 20px rgba(0,0,0,.2); max-width: 560px;
+}
+.rot { display: inline-block; color: #F9F871; transition: opacity .35s ease, transform .35s ease; }
+.rot::after { content: ""; display: block; height: 5px; margin-top: 2px; border-radius: 4px; background: linear-gradient(90deg, #F9F871, #FF9671); }
+.rot.out { opacity: 0; transform: translateY(-12px); }
+.lp-hero p.lead { margin: 0; max-width: 480px; font-size: 1.05rem; opacity: .94; line-height: 1.55; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; max-width: 520px; }
+.chips span {
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.38);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    padding: 9px 16px; border-radius: 999px; font-size: .8rem; font-weight: 600;
+}
+
+/* Iconos flotantes (parallax con el mouse) */
+.stage { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.fl {
+    position: absolute; width: var(--s, 72px); height: var(--s, 72px);
+    transform: translate3d(var(--px, 0px), var(--py, 0px), 0); transition: transform .3s ease-out;
+}
+.fl-in {
+    width: 100%; height: 100%; border-radius: 24px; color: #fff;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.5);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 16px 36px rgba(20,20,70,.28);
+    display: flex; align-items: center; justify-content: center;
+    animation: floaty var(--d, 6s) ease-in-out infinite; animation-delay: var(--delay, 0s);
+}
+.fl-in svg { width: 46%; height: 46%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50%      { transform: translateY(-18px) rotate(calc(var(--r, 0deg) * -1)); }
+}
+
+/* Notificaciones que van apareciendo */
+.toasts { position: relative; margin-top: 34px; height: 66px; max-width: 360px; }
+.toast {
+    position: absolute; inset: 0 auto auto 0; display: flex; align-items: center; gap: 12px;
+    background: #fff; color: var(--text); padding: 11px 20px 11px 12px; border-radius: 999px;
+    box-shadow: 0 14px 30px rgba(20,20,70,.28);
+    opacity: 0; transform: translateY(14px) scale(.97); transition: opacity .5s ease, transform .5s ease;
+}
+.toast.show { opacity: 1; transform: none; }
+.toast .ti { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; flex: none; }
+.toast .ti svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.toast .ti.t1 { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); }
+.toast .ti.t2 { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); }
+.toast .ti.t3 { background: linear-gradient(135deg, #FF9671, var(--pink)); }
+.toast strong { display: block; font-size: .85rem; }
+.toast small { color: var(--muted); font-size: .75rem; }
+
+/* ---------- Lado derecho (tarjeta) ---------- */
+.lp-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 8px; }
+.mobile-brand { display: none; margin-bottom: 18px; font-size: 1.6rem; }
+.lp-card {
+    width: 100%; max-width: 450px; background: rgba(255,255,255,.97); border-radius: 28px;
+    padding: 30px 34px 28px; box-shadow: 0 30px 70px rgba(20,10,60,.38);
+    animation: cardIn .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes cardIn { from { opacity: 0; transform: translateY(26px) scale(.98); } to { opacity: 1; transform: none; } }
+
+.tabs { display: grid; grid-template-columns: 1fr 1fr; background: #f1effa; border-radius: 999px; padding: 5px; margin-bottom: 24px; }
+.tabs a { text-align: center; padding: 11px 8px; border-radius: 999px; font-weight: 700; font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); transition: color .2s, background .2s; }
+.tabs a:hover { text-decoration: none; color: var(--blue); }
+.tabs a.active { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; box-shadow: 0 6px 14px rgba(132,94,194,.38); }
+
+.lp-card h1 { margin: 0 0 4px; font-size: 1.6rem; }
+.lp-card .sub { margin: 0 0 8px; color: var(--muted); font-size: .92rem; }
+
+/* Campos con icono */
+.field { position: relative; }
+.field .ico { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 19px; height: 19px; color: #9a8fb8; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; transition: color .2s; }
+.field:focus-within .ico { color: var(--blue); }
+.field input { height: 50px; padding-left: 46px; padding-right: 46px; border-radius: 14px; background: #faf9fe; }
+.field input:focus { background: #fff; }
+.toggle-pass { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: auto; margin: 0; padding: 8px; border: none; background: none; cursor: pointer; border-radius: 50%; color: #9a8fb8; display: flex; }
+.toggle-pass svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.toggle-pass:hover, .toggle-pass.on { color: var(--blue); }
+
+.lp-card .btn { height: 52px; margin-top: 24px; position: relative; overflow: hidden; }
+.lp-card .btn::after { content: ""; position: absolute; top: 0; left: -80%; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent); transform: skewX(-20deg); }
+.lp-card .btn:hover::after { left: 130%; transition: left .7s ease; }
+.lp-card .btn.loading { pointer-events: none; opacity: .85; }
+.lp-card .auth-footer { margin-top: 18px; }
+.lp-card .account-types { margin-top: 8px; }
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 900px) {
+    .lp-wrap { grid-template-columns: 1fr; padding: 0 16px; }
+    .lp-hero { display: none; }
+    .mobile-brand { display: inline-flex; }
+    .lp-card { padding: 24px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiero vender - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/theme-space.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/sell.css}">
+</head>
+<body class="lp">
+
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<div class="lp-wrap">
+
+    <!-- ===== Lado izquierdo: bienvenida animada ===== -->
+    <section class="lp-hero">
+
+        <div class="stage" aria-hidden="true">
+            <div class="fl" data-depth="34" style="top:7%; right:8%; --s:92px; --d:7s; --r:6deg;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
+            </div>
+            <div class="fl" data-depth="22" style="top:30%; right:34%; --s:64px; --d:5.5s; --r:-8deg; --delay:-2s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg></div>
+            </div>
+            <div class="fl" data-depth="42" style="top:44%; right:3%; --s:84px; --d:8s; --r:-5deg; --delay:-4s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+            </div>
+            <div class="fl" data-depth="28" style="bottom:20%; right:28%; --s:76px; --d:6.5s; --r:7deg; --delay:-1s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+            </div>
+            <div class="fl" data-depth="18" style="bottom:8%; right:6%; --s:60px; --d:5s; --r:-6deg; --delay:-3s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+            </div>
+            <div class="fl" data-depth="30" style="top:14%; right:40%; --s:56px; --d:6s; --r:10deg; --delay:-5s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v9H5v-9"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></div>
+            </div>
+        </div>
+
+        <a class="brand" th:href="@{/shop}">MiMercado</a>
+
+        <h1>Es hora de <span class="rot" id="rot" data-words="vender,publicar,crecer,emprender">vender</span></h1>
+        <p class="lead">Abre tu tienda en un minuto con la misma cuenta con la que compras. Publica productos, controla tu stock y revisa tus ventas.</p>
+
+        <div class="chips">
+            <span>Sin costo</span>
+            <span>Misma cuenta</span>
+            <span>Publica en minutos</span>
+        </div>
+
+        <div class="toasts" aria-hidden="true">
+            <div class="toast">
+                <div class="ti t1"><svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></div>
+                <div><strong>Tu tienda, lista en minutos</strong><small>Publica con foto y precio</small></div>
+            </div>
+            <div class="toast">
+                <div class="ti t2"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <div><strong>¡Nueva venta!</strong><small>Alguien compró tu producto</small></div>
+            </div>
+            <div class="toast">
+                <div class="ti t3"><svg viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+                <div><strong>Nueva opinión de 5 estrellas</strong><small>Tus compradores te valoran</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Lado derecho: tarjeta ===== -->
+    <section class="lp-panel">
+        <a class="brand mobile-brand" th:href="@{/shop}">MiMercado</a>
+
+        <div class="lp-card">
+            <div class="sell-badge">
+                <svg viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+            </div>
+
+            <p class="sell-hello">Hola, <strong th:text="${user.fullName}">Tu nombre</strong></p>
+            <h1>Abre tu tienda</h1>
+            <p class="sub">Usarás esta misma cuenta: seguirás pudiendo comprar y además podrás vender.</p>
+
+            <ol class="sell-steps">
+                <li>
+                    <span class="n">1</span>
+                    <div><strong>Ponle nombre a tu tienda</strong><small>Es lo que verán los compradores</small></div>
+                </li>
+                <li>
+                    <span class="n">2</span>
+                    <div><strong>Publica tus productos</strong><small>Con foto, precio y stock</small></div>
+                </li>
+                <li>
+                    <span class="n">3</span>
+                    <div><strong>Recibe tus ventas</strong><small>Mira tus ingresos desde tu panel</small></div>
+                </li>
+            </ol>
+
+            <form th:action="@{/account/sell}" th:object="${form}" method="post" data-loading="Abriendo tu tienda...">
+
+                <div class="alert alert-error" th:if="${#fields.hasGlobalErrors()}" style="margin-top: 14px;">
+                    <div th:each="e : ${#fields.globalErrors()}" th:text="${e}">Error</div>
+                </div>
+
+                <label for="storeName">Nombre de tu tienda</label>
+                <div class="field">
+                    <svg class="ico" viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg>
+                    <input type="text" id="storeName" th:field="*{storeName}" placeholder="Ej: Tecnología Express" maxlength="100" autofocus>
+                </div>
+                <div class="field-error" th:if="${#fields.hasErrors('storeName')}" th:errors="*{storeName}"></div>
+
+                <button type="submit" class="btn">Abrir mi tienda</button>
+            </form>
+
+            <p class="auth-footer sell-back"><a th:href="@{/shop}">&larr; Volver a la tienda</a></p>
+        </div>
+    </section>
+
+</div>
+
+<script th:src="@{/js/auth.js}"></script>
+</body>
+</html>

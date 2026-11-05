@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel del vendedor - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/seller.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: seller-header(${store.seller.fullName})}"></header>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h1 th:text="${store.name}">Mi tienda</h1>
+            <p class="sub">Administra los productos que vendes</p>
+        </div>
+        <a th:href="@{/seller/products/new}" class="btn btn-link">+ Publicar producto</a>
+    </div>
+
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+
+    <section class="stats">
+        <div class="stat"><div class="num" th:text="${totalProducts}">0</div><div class="lbl">Productos publicados</div></div>
+        <div class="stat"><div class="num" th:text="${totalUnits}">0</div><div class="lbl">Unidades en stock</div></div>
+        <div class="stat" th:classappend="${lowStock > 0} ? 'warn'">
+            <div class="num" th:text="${lowStock}">0</div><div class="lbl">Con stock bajo (5 o menos)</div>
+        </div>
+    </section>
+
+    <div class="card">
+        <div class="empty" th:if="${#lists.isEmpty(products)}">
+            <h2>Aún no tienes productos</h2>
+            <p>Publica tu primer producto para empezar a vender.</p>
+            <a th:href="@{/seller/products/new}" class="btn btn-link">Publicar mi primer producto</a>
+        </div>
+
+        <div class="table-wrap" th:unless="${#lists.isEmpty(products)}">
+            <table class="products">
+                <thead>
+                <tr><th></th><th>Producto</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${products}">
+                    <td>
+                        <img th:if="${!p.images.isEmpty()}" th:src="@{${p.images[0].imageUrl}}" class="thumb" alt="">
+                        <img th:if="${p.images.isEmpty()}" th:src="@{/images/placeholder.svg}" class="thumb" alt="">
+                    </td>
+                    <td>
+                        <div class="pname" th:text="${p.name}">Producto</div>
+                        <div class="pcat" th:text="${p.category.name}">Categoría</div>
+                    </td>
+                    <td class="price">$ <span th:text="${#numbers.formatDecimal(p.price, 1, 'POINT', 0, 'COMMA')}">0</span></td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${p.stock == 0} ? 'badge-out' : (${p.stock <= 5} ? 'badge-low' : 'badge-ok')"
+                              th:text="${p.stock == 0} ? 'Agotado' : ${p.stock} + ' uds'">10 uds</span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <a th:href="@{/seller/products/{id}/edit(id=${p.id})}" class="btn btn-small btn-outline">Editar</a>
+                            <form th:action="@{/seller/products/{id}/delete(id=${p.id})}" method="post"
+                                  onsubmit="return confirm('¿Seguro que quieres eliminar este producto?')">
+                                <button type="submit" class="btn btn-small btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

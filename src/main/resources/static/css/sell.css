@@ -1,0 +1,52 @@
+/* =====================================================================
+   PANTALLA "QUIERO VENDER" - complementa a auth.css (mismo estilo que login)
+   ===================================================================== */
+
+.sell-badge {
+    width: 64px; height: 64px; border-radius: 20px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center; color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--pink));
+    box-shadow: 0 12px 26px rgba(132, 94, 194, .4);
+    animation: badgePop .8s cubic-bezier(.2, .8, .2, 1) both .15s;
+}
+.sell-badge svg {
+    width: 32px; height: 32px; fill: none; stroke: currentColor;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+@keyframes badgePop {
+    from { opacity: 0; transform: scale(.6) rotate(-12deg); }
+    to   { opacity: 1; transform: none; }
+}
+
+.sell-hello {
+    display: inline-block; margin: 0 0 10px; padding: 6px 14px; border-radius: 999px;
+    background: #f1effa; color: var(--blue-dark); font-size: .8rem; font-weight: 600;
+}
+
+/* Pasos */
+.sell-steps {
+    list-style: none; margin: 18px 0 4px; padding: 16px;
+    background: #f6f3fd; border-radius: 18px; display: grid; gap: 14px;
+}
+.sell-steps li { display: flex; align-items: center; gap: 12px; animation: stepIn .5s ease both; }
+.sell-steps li:nth-child(1) { animation-delay: .35s; }
+.sell-steps li:nth-child(2) { animation-delay: .5s; }
+.sell-steps li:nth-child(3) { animation-delay: .65s; }
+@keyframes stepIn {
+    from { opacity: 0; transform: translateX(-14px); }
+    to   { opacity: 1; transform: none; }
+}
+.sell-steps .n {
+    flex: none; width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: .85rem; color: #fff;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    box-shadow: 0 6px 12px rgba(0, 201, 167, .35);
+}
+.sell-steps strong { display: block; font-size: .88rem; }
+.sell-steps small { color: var(--muted); font-size: .78rem; }
+
+/* Volver */
+.sell-back { margin-top: 16px; }
+.sell-back a { font-weight: 600; color: var(--muted); }
+.sell-back a:hover { color: var(--blue); text-decoration: none; }

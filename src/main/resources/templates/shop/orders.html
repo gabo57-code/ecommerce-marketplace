@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mis compras - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: shop-header(${user.fullName}, '')}"></header>
+
+<main class="container">
+    <h1 class="page-title">Mis compras</h1>
+
+    <div class="empty-shop" th:if="${#lists.isEmpty(orders)}">
+        <h2>Aún no has comprado nada</h2>
+        <p>Cuando hagas tu primera compra, aparecerá aquí.</p>
+        <a th:href="@{/shop}">Ir al catálogo</a>
+    </div>
+
+    <div class="order-card" th:each="o : ${orders}">
+        <div class="order-head">
+            <div>
+                <span class="num">Pedido #<span th:text="${o.id}">1</span></span>
+                <span class="order-meta" th:text="'· ' + ${#temporals.format(o.createdAt, 'dd/MM/yyyy HH:mm')}">fecha</span>
+            </div>
+            <span class="badge" th:switch="${o.status.name}"
+                  th:classappend="${o.status.name == 'PENDING'} ? 'pending' : (${o.status.name == 'CANCELLED'} ? 'cancelled' : (${o.status.name == 'SHIPPED'} ? 'shipped' : ''))">
+                <span th:case="'PAID'">Pagado</span>
+                <span th:case="'PENDING'">Pendiente</span>
+                <span th:case="'SHIPPED'">Enviado</span>
+                <span th:case="'DELIVERED'">Entregado</span>
+                <span th:case="'CANCELLED'">Cancelado</span>
+                <span th:case="*" th:text="${o.status.name}">Estado</span>
+            </span>
+        </div>
+
+        <div class="mini-line" th:each="item : ${o.items}">
+            <span><span th:text="${item.quantity}">1</span> x <span th:text="${item.product.name}">Producto</span></span>
+            <span>$ <span th:text="${#numbers.formatDecimal(item.unitPrice.multiply(new java.math.BigDecimal(item.quantity)), 1, 'POINT', 0, 'COMMA')}">0</span></span>
+        </div>
+
+        <div class="order-total">Total: $ <span th:text="${#numbers.formatDecimal(o.total, 1, 'POINT', 0, 'COMMA')}">0</span></div>
+    </div>
+</main>
+</body>
+</html>

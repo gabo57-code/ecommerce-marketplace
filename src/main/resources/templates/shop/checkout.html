@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Finalizar compra - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: shop-header(${user.fullName}, '')}"></header>
+
+<main class="container">
+    <h1 class="page-title">Finalizar compra</h1>
+
+    <form th:object="${form}" th:action="@{/checkout}" method="post" data-loading="Procesando pago...">
+
+        <div class="alert alert-error" th:if="${#fields.hasGlobalErrors()}">
+            <div th:each="e : ${#fields.globalErrors()}" th:text="${e}">Error</div>
+        </div>
+
+        <div class="checkout-layout">
+
+            <div>
+                <!-- 1. Dirección -->
+                <section class="panel">
+                    <div class="form-sec" style="margin-top: 0;">
+                        <span class="num">1</span>
+                        <div><h2>Dirección de envío</h2><p>¿Dónde quieres recibir tu compra?</p></div>
+                    </div>
+
+                    <label for="street">Dirección</label>
+                    <div class="fld">
+                        <svg class="ico" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <input type="text" id="street" th:field="*{street}" placeholder="Ej: Calle 10 # 5-20, Apto 301">
+                    </div>
+                    <div class="field-error" th:if="${#fields.hasErrors('street')}" th:errors="*{street}"></div>
+
+                    <div class="row-2">
+                        <div>
+                            <label for="city">Ciudad</label>
+                            <div class="fld">
+                                <svg class="ico" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/></svg>
+                                <input type="text" id="city" th:field="*{city}" placeholder="Ej: Ibagué">
+                            </div>
+                            <div class="field-error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+                        </div>
+                        <div>
+                            <label for="department">Departamento</label>
+                            <div class="fld">
+                                <svg class="ico" viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg>
+                                <input type="text" id="department" th:field="*{department}" placeholder="Ej: Tolima">
+                            </div>
+                            <div class="field-error" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></div>
+                        </div>
+                    </div>
+
+                    <label for="postalCode">Código postal (opcional)</label>
+                    <div class="fld">
+                        <svg class="ico" viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg>
+                        <input type="text" id="postalCode" th:field="*{postalCode}" placeholder="Ej: 730001">
+                    </div>
+                    <div class="field-error" th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}"></div>
+                </section>
+
+                <!-- 2. Pago -->
+                <section class="panel">
+                    <div class="form-sec" style="margin-top: 0;">
+                        <span class="num">2</span>
+                        <div><h2>Método de pago</h2><p>Elige cómo quieres pagar</p></div>
+                    </div>
+
+                    <div class="pay-options">
+                        <label class="pay-option" th:each="m : ${paymentMethods}">
+                            <input type="radio" th:field="*{paymentMethodId}" th:value="${m.id}">
+                            <span class="pi">
+                                <svg th:if="${#strings.containsIgnoreCase(m.name, 'tarjeta')}" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                                <svg th:if="${#strings.containsIgnoreCase(m.name, 'pse')}" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M3 10l9-6 9 6"/></svg>
+                                <svg th:if="${!#strings.containsIgnoreCase(m.name, 'tarjeta') and !#strings.containsIgnoreCase(m.name, 'pse')}" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>
+                            </span>
+                            <span th:text="${m.name}">Método</span>
+                        </label>
+                    </div>
+                    <div class="field-error" th:if="${#fields.hasErrors('paymentMethodId')}" th:errors="*{paymentMethodId}"></div>
+                    <p class="note">Este es un entorno de práctica: el pago se simula y no se cobra nada.</p>
+                </section>
+            </div>
+
+            <!-- Resumen -->
+            <aside class="summary">
+                <h2>Tu pedido</h2>
+                <div class="mini-line" th:each="line : ${cart.lines}">
+                    <span><span th:text="${line.quantity}">1</span> x <span th:text="${line.product.name}">Producto</span></span>
+                    <span>$ <span th:text="${#numbers.formatDecimal(line.subtotal, 1, 'POINT', 0, 'COMMA')}">0</span></span>
+                </div>
+                <div class="summary-row"><span>Envío</span><span style="color:#00a650;font-weight:600">Gratis</span></div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span>$ <span th:text="${#numbers.formatDecimal(cart.total, 1, 'POINT', 0, 'COMMA')}">0</span></span>
+                </div>
+                <button type="submit" class="btn">Confirmar compra</button>
+                <a th:href="@{/cart}" class="btn btn-secondary">Volver al carrito</a>
+            </aside>
+        </div>
+    </form>
+</main>
+
+<script th:src="@{/js/forms.js}"></script>
+</body>
+</html>

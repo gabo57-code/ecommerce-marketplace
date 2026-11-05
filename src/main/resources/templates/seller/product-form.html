@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${editing} ? 'Editar producto - MiMercado' : 'Publicar producto - MiMercado'">Producto</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/seller.css}">
+    <link rel="stylesheet" th:href="@{/css/shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: seller-header(${store.seller.fullName})}"></header>
+
+<main class="container">
+    <div class="sell-layout">
+
+        <!-- ===== Formulario ===== -->
+        <div class="card">
+            <div class="form-head">
+                <h1 th:text="${editing} ? 'Editar producto' : 'Publicar un producto'">Producto</h1>
+                <p th:text="${editing} ? 'Actualiza los datos y mira cómo quedará en la tienda.' : 'Completa los datos y mira a la derecha cómo lo verán los compradores.'">Completa los datos.</p>
+            </div>
+
+            <form th:object="${form}"
+                  th:action="${editing} ? @{/seller/products/{id}(id=${productId})} : @{/seller/products}"
+                  method="post" enctype="multipart/form-data" data-loading="Guardando...">
+
+                <!-- Errores generales: DENTRO del formulario -->
+                <div class="alert alert-error" th:if="${#fields.hasGlobalErrors()}" style="margin-top: 18px;">
+                    <div th:each="e : ${#fields.globalErrors()}" th:text="${e}">Error</div>
+                </div>
+
+                <!-- 1. Lo básico -->
+                <div class="form-sec">
+                    <span class="num">1</span>
+                    <div><h2>Lo básico</h2><p>Cómo se llama y qué vendes</p></div>
+                </div>
+                <div class="form-grid">
+                    <div class="full">
+                        <div class="label-row">
+                            <label for="name">Título del producto</label>
+                            <span class="counter"><span id="nameCount">0</span>/150</span>
+                        </div>
+                        <div class="fld">
+                            <svg class="ico" viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>
+                            <input type="text" id="name" th:field="*{name}" maxlength="150" placeholder="Ej: Audífonos inalámbricos Bluetooth">
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+
+                    <div class="full">
+                        <label for="categoryId">Categoría</label>
+                        <div class="fld">
+                            <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                            <select id="categoryId" th:field="*{categoryId}">
+                                <option value="">Selecciona una categoría...</option>
+                                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}">Categoría</option>
+                            </select>
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
+                    </div>
+
+                    <div class="full">
+                        <div class="label-row">
+                            <label for="description">Descripción</label>
+                            <span class="counter"><span id="descCount">0</span>/2000</span>
+                        </div>
+                        <div class="fld top">
+                            <svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                            <textarea id="description" th:field="*{description}" maxlength="2000" placeholder="Cuéntale al comprador qué ofreces..."></textarea>
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                    </div>
+                </div>
+
+                <!-- 2. Precio e inventario -->
+                <div class="form-sec">
+                    <span class="num">2</span>
+                    <div><h2>Precio e inventario</h2><p>Cuánto cuesta y cuántas unidades tienes</p></div>
+                </div>
+                <div class="form-grid">
+                    <div>
+                        <label for="price">Precio</label>
+                        <div class="fld has-affix">
+                            <svg class="ico" viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            <input type="number" id="price" th:field="*{price}" step="0.01" min="1" placeholder="50000">
+                            <span class="affix">COP</span>
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                    </div>
+
+                    <div>
+                        <label for="stock">Unidades disponibles</label>
+                        <div class="fld">
+                            <svg class="ico" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/></svg>
+                            <input type="number" id="stock" th:field="*{stock}" min="0" placeholder="10">
+                        </div>
+                        <div class="field-error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Foto -->
+                <div class="form-sec">
+                    <span class="num">3</span>
+                    <div><h2>Foto del producto</h2><p>Una buena foto vende más</p></div>
+                </div>
+                <div class="dropzone" id="dropzone">
+                    <img class="dz-thumb" id="dzThumb"
+                         th:src="${currentImage != null} ? @{${currentImage}} : @{/images/placeholder.svg}"
+                         alt="Foto del producto">
+                    <div class="dz-text">
+                        <strong id="dzTitle">Arrastra tu foto aquí</strong>
+                        <span id="dzHint">JPG, PNG, WEBP o GIF &middot; máximo 5 MB<span th:if="${editing}"> &middot; Si no eliges otra, se conserva la actual</span></span>
+                        <span class="dz-btn">Elegir foto</span>
+                    </div>
+                    <input type="file" id="image" name="image" accept="image/png,image/jpeg,image/webp,image/gif">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn" th:text="${editing} ? 'Guardar cambios' : 'Publicar producto'">Guardar</button>
+                    <a th:href="@{/seller/dashboard}" class="btn btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- ===== Vista previa en vivo ===== -->
+        <aside class="preview-col">
+            <div class="preview-box">
+                <h3>Vista previa</h3>
+                <p>Así se verá tu producto en el catálogo</p>
+
+                <div class="pcard">
+                    <div class="pimg">
+                        <img id="pvImg"
+                             th:src="${currentImage != null} ? @{${currentImage}} : @{/images/placeholder.svg}"
+                             alt="Vista previa">
+                    </div>
+                    <div class="pbody">
+                        <div class="card-price">$ <span id="pvPrice">0</span></div>
+                        <div class="card-ship">Envío gratis</div>
+                        <div class="card-name is-empty" id="pvName">Título de tu producto</div>
+                        <div class="card-store">Vendido por <span th:text="${store.name}">Tu tienda</span></div>
+                        <div class="card-low" id="pvLow" hidden></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<script th:src="@{/js/forms.js}"></script>
+</body>
+</html>

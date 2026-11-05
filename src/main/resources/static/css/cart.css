@@ -1,0 +1,90 @@
+/* ---------- Carrito en la barra superior ---------- */
+.topbar-user a { color: var(--text); font-weight: 600; font-size: .95rem; }
+.cart-badge {
+    display: inline-block; min-width: 20px; padding: 1px 6px; margin-left: 4px;
+    background: var(--blue); color: #fff; border-radius: 10px; font-size: .75rem; text-align: center;
+}
+
+.page-title { margin: 0 0 18px; font-size: 1.6rem; }
+
+/* ---------- Carrito ---------- */
+.cart-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+.cart-lines { background: #fff; border-radius: var(--radius); box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+.cart-line {
+    display: grid; grid-template-columns: 90px 1fr 90px 130px; gap: 16px; align-items: center;
+    padding: 18px 20px; border-bottom: 1px solid #eee;
+}
+.cart-line:last-child { border-bottom: none; }
+.cl-img { width: 90px; height: 90px; object-fit: contain; border: 1px solid #eee; border-radius: 6px; background: #fff; }
+.cl-name { font-weight: 600; color: var(--text); display: block; }
+.cl-store { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+.cl-warn { color: #b3261e; font-size: .85rem; margin-top: 6px; font-weight: 600; }
+.cl-qty { margin: 0; }
+.cl-qty input { width: 70px; padding: 8px; text-align: center; }
+.cl-price { text-align: right; font-size: 1.15rem; font-weight: 600; }
+.link-btn { background: none; border: none; color: var(--blue); cursor: pointer; padding: 0; margin-top: 6px; font-size: .9rem; }
+.link-btn:hover { text-decoration: underline; }
+form.inline { margin: 0; }
+
+.summary { background: #fff; border-radius: var(--radius); box-shadow: 0 1px 2px rgba(0,0,0,.15); padding: 22px; position: sticky; top: 20px; }
+.summary h2 { margin: 0 0 14px; font-size: 1.15rem; }
+.summary-row { display: flex; justify-content: space-between; margin: 10px 0; gap: 12px; color: #555; }
+.summary-total { font-size: 1.3rem; font-weight: 700; color: var(--text); border-top: 1px solid #eee; padding-top: 14px; margin-top: 14px; }
+.summary .btn { display: block; text-align: center; }
+.summary .btn-secondary { background: transparent; color: var(--blue); margin-top: 10px; }
+.summary .btn-secondary:hover { background: rgba(52,131,250,.08); }
+
+/* ---------- Caja "Agregar al carrito" ---------- */
+.buy-box { margin-top: 22px; padding-top: 18px; border-top: 1px solid #eee; }
+.buy-box form { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.buy-box label { margin: 0 0 6px; }
+.buy-box input[type=number] { width: 90px; }
+.buy-box .btn { width: auto; margin: 0; padding: 12px 26px; }
+
+/* ---------- Checkout ---------- */
+.checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+.panel { background: #fff; border-radius: var(--radius); box-shadow: 0 1px 2px rgba(0,0,0,.15); padding: 26px; margin-bottom: 20px; }
+.panel h2 { margin: 0 0 6px; font-size: 1.2rem; }
+.panel .hint { margin: 0 0 8px; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.pay-options { display: grid; gap: 10px; margin-top: 10px; }
+.pay-option {
+    display: flex; align-items: center; gap: 12px; margin: 0; padding: 14px 16px; cursor: pointer;
+    border: 2px solid #ddd; border-radius: var(--radius); font-weight: 600;
+}
+.pay-option input { width: auto; margin: 0; }
+.pay-option:has(input:checked) { border-color: var(--blue); background: rgba(52,131,250,.06); }
+.mini-line { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: .92rem; border-bottom: 1px solid #f0f0f0; }
+.mini-line span:first-child { color: #555; }
+.note { margin-top: 14px; font-size: .8rem; color: var(--muted); }
+
+/* ---------- Compra exitosa ---------- */
+.success-card { max-width: 640px; margin: 0 auto; background: #fff; border-radius: var(--radius); box-shadow: 0 1px 2px rgba(0,0,0,.15); padding: 40px 32px; text-align: center; }
+.success-icon {
+    width: 76px; height: 76px; margin: 0 auto 18px; border-radius: 50%;
+    background: #00a650; color: #fff; font-size: 2.4rem; line-height: 76px;
+}
+.success-card h1 { margin: 0 0 8px; font-size: 1.7rem; }
+.success-card .lead { color: #555; margin: 0 0 24px; }
+.order-box { text-align: left; border: 1px solid #eee; border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; }
+.order-box .mini-line:last-child { border-bottom: none; }
+.order-meta { color: var(--muted); font-size: .9rem; margin-bottom: 10px; }
+.success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.success-actions .btn { width: auto; margin: 0; padding: 12px 26px; }
+
+/* ---------- Mis compras ---------- */
+.order-card { background: #fff; border-radius: var(--radius); box-shadow: 0 1px 2px rgba(0,0,0,.15); padding: 20px 24px; margin-bottom: 16px; }
+.order-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.order-head .num { font-weight: 700; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: .8rem; font-weight: 600; background: #e6f4ea; color: #1e7b34; }
+.badge.pending { background: #fff4e0; color: #b26a00; }
+.badge.cancelled { background: #fdecea; color: #b3261e; }
+.badge.shipped { background: #e8f0fe; color: #1a56c4; }
+.order-total { text-align: right; font-weight: 700; margin-top: 10px; }
+
+@media (max-width: 900px) {
+    .cart-layout, .checkout-layout { grid-template-columns: 1fr; }
+    .cart-line { grid-template-columns: 70px 1fr; }
+    .cl-qty, .cl-price { grid-column: 2; text-align: left; }
+    .row-2 { grid-template-columns: 1fr; }
+}

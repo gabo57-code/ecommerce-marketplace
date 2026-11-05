@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>¡Compra exitosa! - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: shop-header(${user.fullName}, '')}"></header>
+
+<main class="container">
+    <div class="success-card">
+        <div class="success-icon">&#10003;</div>
+        <h1>¡Felicitaciones, tu compra fue exitosa!</h1>
+        <p class="lead">Gracias por comprar, <strong th:text="${user.fullName}">comprador</strong>. Ya registramos tu pedido.</p>
+
+        <div class="order-box">
+            <div class="order-meta">
+                Pedido <strong>#<span th:text="${order.id}">1</span></strong> ·
+                <span th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}">fecha</span>
+            </div>
+
+            <div class="mini-line" th:each="item : ${order.items}">
+                <span><span th:text="${item.quantity}">1</span> x <span th:text="${item.product.name}">Producto</span></span>
+                <span>$ <span th:text="${#numbers.formatDecimal(item.unitPrice.multiply(new java.math.BigDecimal(item.quantity)), 1, 'POINT', 0, 'COMMA')}">0</span></span>
+            </div>
+
+            <div class="mini-line"><span>Total pagado</span>
+                <strong>$ <span th:text="${#numbers.formatDecimal(order.total, 1, 'POINT', 0, 'COMMA')}">0</span></strong></div>
+            <div class="mini-line" th:if="${payment != null}"><span>Método de pago</span>
+                <span th:text="${payment.paymentMethod.name}">Método</span></div>
+            <div class="mini-line"><span>Envío a</span>
+                <span th:text="${order.address.street} + ', ' + ${order.address.city}">Dirección</span></div>
+        </div>
+
+        <div class="success-actions">
+            <a th:href="@{/shop}" class="btn">Seguir comprando</a>
+            <a th:href="@{/shop/orders}" class="btn btn-secondary" style="background:transparent;color:var(--blue);border:1px solid var(--blue)">Ver mis compras</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

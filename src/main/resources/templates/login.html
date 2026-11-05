@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/theme-space.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body class="lp">
+
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<div class="lp-wrap">
+
+    <!-- ===== Lado izquierdo: bienvenida animada ===== -->
+    <section class="lp-hero">
+
+        <div class="stage" aria-hidden="true">
+            <div class="fl" data-depth="34" style="top:7%; right:8%; --s:92px; --d:7s; --r:6deg;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></div>
+            </div>
+            <div class="fl" data-depth="22" style="top:30%; right:34%; --s:64px; --d:5.5s; --r:-8deg; --delay:-2s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg></div>
+            </div>
+            <div class="fl" data-depth="42" style="top:44%; right:3%; --s:84px; --d:8s; --r:-5deg; --delay:-4s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+            </div>
+            <div class="fl" data-depth="28" style="bottom:20%; right:28%; --s:76px; --d:6.5s; --r:7deg; --delay:-1s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+            </div>
+            <div class="fl" data-depth="18" style="bottom:8%; right:6%; --s:60px; --d:5s; --r:-6deg; --delay:-3s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+            </div>
+            <div class="fl" data-depth="30" style="top:14%; right:40%; --s:56px; --d:6s; --r:10deg; --delay:-5s;">
+                <div class="fl-in"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v9H5v-9"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></div>
+            </div>
+        </div>
+
+        <a class="brand" th:href="@{/}">MiMercado</a>
+
+        <h1>La forma más fácil de <span class="rot" id="rot">comprar</span></h1>
+        <p class="lead">Abre tu tienda o encuentra justo lo que buscas. Todo en un solo lugar, rápido y sin complicaciones.</p>
+
+        <div class="chips">
+            <span>Abre tu tienda gratis</span>
+            <span>Compra en pocos pasos</span>
+            <span>Opiniones de compradores</span>
+        </div>
+
+        <div class="toasts" aria-hidden="true">
+            <div class="toast">
+                <div class="ti t1"><svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></div>
+                <div><strong>Producto agregado al carrito</strong><small>Listo para pagar cuando quieras</small></div>
+            </div>
+            <div class="toast">
+                <div class="ti t2"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+                <div><strong>¡Compra exitosa!</strong><small>Tu pedido ya quedó registrado</small></div>
+            </div>
+            <div class="toast">
+                <div class="ti t3"><svg viewBox="0 0 24 24"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></div>
+                <div><strong>Nueva opinión de 5 estrellas</strong><small>Los compradores valoran tu tienda</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Lado derecho: formulario ===== -->
+    <section class="lp-panel">
+        <a class="brand mobile-brand" th:href="@{/}">MiMercado</a>
+
+        <div class="lp-card">
+            <div class="tabs">
+                <a class="active" th:href="@{/login}">Ingresar</a>
+                <a th:href="@{/register}">Crear cuenta</a>
+            </div>
+
+            <h1>¡Hola de nuevo!</h1>
+            <p class="sub">Ingresa con tu correo para continuar</p>
+
+            <div class="alert alert-error"   th:if="${param.error}">Correo o contraseña incorrectos.</div>
+            <div class="alert alert-success" th:if="${param.logout}">Cerraste sesión correctamente.</div>
+            <div class="alert alert-success" th:if="${param.registered}">¡Cuenta creada! Ya puedes iniciar sesión.</div>
+
+            <form th:action="@{/login}" method="post" data-loading="Ingresando...">
+                <label for="email">Correo electrónico</label>
+                <div class="field">
+                    <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                    <input type="email" id="email" name="email" placeholder="tu@correo.com" required autofocus>
+                </div>
+
+                <label for="password">Contraseña</label>
+                <div class="field">
+                    <svg class="ico" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                    <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
+                    <button type="button" class="toggle-pass" aria-label="Mostrar contraseña">
+                        <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn">Ingresar</button>
+            </form>
+
+            <p class="auth-footer">¿Eres nuevo? <a th:href="@{/register}">Crea tu cuenta</a></p>
+        </div>
+    </section>
+
+</div>
+
+<script th:src="@{/js/auth.js}"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+/* =====================================================================
+   FORMULARIOS MODERNOS
+   Se aplica a todo lo que esté dentro de .card, .panel y .review-form
+   (publicar producto, checkout, opiniones...). Se carga desde
+   fragments.html, así que no hace falta enlazarlo en cada página.
+   ===================================================================== */
+
+/* ---------- Etiquetas ---------- */
+:is(.card, .panel, .review-form) label {
+    margin: 18px 0 8px; font-size: .8rem; font-weight: 700;
+    letter-spacing: .03em; color: #5b5478;
+}
+
+/* ---------- Campos ---------- */
+:is(.card, .panel, .review-form) :is(input[type=text], input[type=email], input[type=password], input[type=number], textarea, select) {
+    width: 100%; padding: 14px 16px; font-size: .95rem; color: var(--text);
+    background-color: #faf9fe; border: 2px solid #ece8f7; border-radius: 16px;
+    transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+:is(.card, .panel, .review-form) :is(input[type=text], input[type=email], input[type=password], input[type=number], textarea, select):hover {
+    border-color: #d6cdee;
+}
+:is(.card, .panel, .review-form) :is(input[type=text], input[type=email], input[type=password], input[type=number], textarea, select):focus {
+    outline: none; background-color: #fff; border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(132, 94, 194, .15), 0 10px 24px rgba(132, 94, 194, .14);
+}
+:is(.card, .panel, .review-form) ::placeholder { color: #a9a2c4; opacity: 1; }
+:is(.card, .panel, .review-form) textarea { min-height: 130px; line-height: 1.5; resize: vertical; }
+:is(.card, .panel, .review-form) select {
+    appearance: none; -webkit-appearance: none; padding-right: 46px; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23845EC2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; background-size: 20px;
+}
+:is(.card, .panel, .review-form) .field-error { margin-top: 6px; font-size: .8rem; font-weight: 600; color: #d93025; }
+
+/* ---------- Campos con icono ---------- */
+.fld { position: relative; }
+.fld .ico {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    width: 19px; height: 19px; fill: none; stroke: #9a8fb8; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; pointer-events: none; transition: stroke .2s;
+}
+.fld.top .ico { top: 20px; transform: none; }
+.fld:focus-within .ico { stroke: var(--blue); }
+:is(.card, .panel, .review-form) .fld :is(input, textarea, select) { padding-left: 48px; }
+.fld .affix {
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    font-size: .7rem; font-weight: 700; letter-spacing: .08em; color: #9a8fb8; pointer-events: none;
+}
+:is(.card, .panel, .review-form) .fld.has-affix input { padding-right: 64px; }
+
+/* ---------- Encabezado y secciones numeradas ---------- */
+.form-head h1 { margin: 0 0 6px; font-size: 1.6rem; }
+.form-head p { margin: 0; color: var(--muted); font-size: .92rem; }
+.form-sec { display: flex; align-items: center; gap: 14px; margin: 32px 0 2px; }
+.form-sec .num {
+    flex: none; width: 36px; height: 36px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--blue), var(--pink));
+    box-shadow: 0 8px 16px rgba(132, 94, 194, .3);
+}
+.form-sec h2 { margin: 0; font-size: 1.05rem; }
+.form-sec p { margin: 2px 0 0; font-size: .8rem; color: var(--muted); }
+.form-head + form .form-sec:first-of-type { margin-top: 24px; }
+
+/* ---------- Etiqueta con contador ---------- */
+.label-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.label-row label { margin-bottom: 8px; }
+.counter { margin-bottom: 8px; font-size: .75rem; font-weight: 600; color: #a9a2c4; }
+.counter.warn { color: #b26a00; }
+
+/* ---------- Zona para arrastrar la foto ---------- */
+.dropzone {
+    position: relative; display: flex; align-items: center; gap: 18px; margin-top: 6px; padding: 20px;
+    border: 2px dashed #cfc3ec; border-radius: 22px; background: #faf9fe;
+    transition: border-color .2s, background .2s, transform .2s;
+}
+.dropzone:hover, .dropzone.drag { border-color: var(--blue); background: #f3eefc; }
+.dropzone.drag { transform: scale(1.01); }
+.dropzone input[type=file] {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: pointer; padding: 0; border: 0;
+}
+.dz-thumb {
+    flex: none; width: 96px; height: 96px; object-fit: cover; border-radius: 16px;
+    background: #fff; border: 1px solid #eee; box-shadow: 0 8px 18px rgba(20, 20, 70, .12);
+}
+.dz-text { min-width: 0; }
+.dz-text strong { display: block; font-size: .95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dz-text > span { display: block; margin-top: 3px; font-size: .8rem; color: var(--muted); }
+.dz-text > span.err { color: #d93025; font-weight: 600; }
+.dz-text .dz-btn {
+    display: inline-block; margin-top: 10px; padding: 7px 16px; border-radius: 999px;
+    background: #fff; border: 1px solid #d9cff2; color: var(--blue-dark);
+    font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+
+/* ---------- Botones del formulario ---------- */
+.form-actions { display: flex; align-items: center; gap: 12px; margin-top: 30px; }
+.card .form-actions .btn { width: auto; margin: 0; padding: 15px 34px; }
+.card .form-actions .btn:first-child { flex: 1; }
+
+/* ---------- Publicar producto: formulario + vista previa ---------- */
+.sell-layout {
+    display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px;
+    align-items: start; max-width: 1100px; margin: 0 auto;
+}
+.sell-layout > .card { border-radius: 28px; padding: 34px 36px; box-shadow: 0 24px 54px rgba(20, 20, 70, .2); }
+.preview-col { position: sticky; top: 96px; }
+.preview-box {
+    padding: 20px; border-radius: 26px; color: #fff;
+    background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .4);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.preview-box h3 { margin: 0 0 4px; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
+.preview-box p { margin: 0 0 16px; font-size: .82rem; opacity: .92; }
+.preview-box .pcard:hover { transform: none; box-shadow: var(--shadow); }
+.preview-box .card-name.is-empty { color: #b8b2cf; }
+
+/* ---------- Checkout ---------- */
+.panel { border-radius: 26px; padding: 28px 30px; box-shadow: 0 16px 36px rgba(20, 20, 70, .18); }
+.summary { border-radius: 26px; box-shadow: 0 16px 36px rgba(20, 20, 70, .22); }
+
+.panel .pay-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.panel .pay-option {
+    position: relative; display: flex; align-items: center; gap: 12px; margin: 0; padding: 14px 16px;
+    border: 2px solid #ece8f7; border-radius: 18px; background: #faf9fe; cursor: pointer;
+    font-size: .85rem; font-weight: 700; letter-spacing: 0; color: var(--text);
+    transition: border-color .2s, background .2s, box-shadow .2s, transform .2s;
+}
+.panel .pay-option:hover { border-color: #d6cdee; transform: translateY(-2px); }
+.panel .pay-option input { position: absolute; opacity: 0; width: 0; height: 0; margin: 0; }
+.panel .pay-option .pi {
+    flex: none; width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: #efeafb; color: var(--blue); transition: background .2s, color .2s;
+}
+.panel .pay-option .pi svg {
+    width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+}
+.panel .pay-option::after {
+    content: "\2713"; position: absolute; top: 8px; right: 10px; width: 20px; height: 20px;
+    border-radius: 50%; background: var(--teal); color: #fff; font-size: .7rem; line-height: 20px; text-align: center;
+    opacity: 0; transform: scale(.5); transition: opacity .2s, transform .2s;
+}
+.panel .pay-option:has(input:checked) { border-color: var(--blue); background: #f3eefc; box-shadow: 0 10px 22px rgba(132, 94, 194, .18); }
+.panel .pay-option:has(input:checked) .pi { background: linear-gradient(135deg, var(--blue), var(--pink)); color: #fff; }
+.panel .pay-option:has(input:checked)::after { opacity: 1; transform: none; }
+.panel .pay-option:has(input:focus-visible) { box-shadow: 0 0 0 4px rgba(132, 94, 194, .25); }
+
+/* ---------- Opiniones (estrellas) ---------- */
+.review-form .star-input label { margin: 0; font-size: 2.1rem; letter-spacing: 0; color: #d9d9d9; }
+.review-form .star-input input:checked ~ label,
+.review-form .star-input label:hover,
+.review-form .star-input label:hover ~ label { color: #f5a623; }
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 960px) {
+    .sell-layout { grid-template-columns: 1fr; }
+    .preview-col { position: static; }
+}
+@media (max-width: 560px) {
+    .panel .pay-options { grid-template-columns: 1fr; }
+    .sell-layout > .card { padding: 24px 20px; }
+    .dropzone { flex-direction: column; text-align: center; }
+    .form-actions { flex-direction: column; }
+    .card .form-actions .btn { width: 100%; }
+}

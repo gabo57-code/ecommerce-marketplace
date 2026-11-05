@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ups - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/theme-space.css}">
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+    <a class="brand" th:href="@{/}">MiMercado</a>
+</div></header>
+
+<main class="auth-panel" style="min-height: calc(100vh - 62px); background: transparent;">
+    <div class="card error-box">
+        <p class="error-code" th:text="${status != null} ? ${status} : 'Error'">404</p>
+        <h1>Ups, algo salió mal</h1>
+        <p th:if="${status == 404}">No encontramos la página o el producto que buscas.</p>
+        <p th:if="${status == 403}">No tienes permiso para ver esta página.</p>
+        <p th:if="${status != 404 and status != 403}">Ocurrió un problema inesperado. Intenta de nuevo en un momento.</p>
+        <a th:href="@{/}" class="btn">Volver al inicio</a>
+    </div>
+</main>
+</body>
+</html>

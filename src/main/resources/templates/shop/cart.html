@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carrito - MiMercado</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments :: shop-header(${user.fullName}, '')}"></header>
+
+<main class="container">
+    <h1 class="page-title">Carrito de compras</h1>
+
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+
+    <!-- Carrito vacío -->
+    <div class="empty-shop" th:if="${#lists.isEmpty(cart.lines)}">
+        <h2>Tu carrito está vacío</h2>
+        <p>¡Explora el catálogo y agrega los productos que te gusten!</p>
+        <a th:href="@{/shop}" class="btn btn-small" style="display:inline-block">Ver productos</a>
+    </div>
+
+    <!-- Carrito con productos -->
+    <div class="cart-layout" th:unless="${#lists.isEmpty(cart.lines)}">
+
+        <section class="cart-lines">
+            <div class="cart-line" th:each="line : ${cart.lines}">
+                <a th:href="@{/shop/product/{id}(id=${line.product.id})}">
+                    <img class="cl-img" th:if="${!line.product.images.isEmpty()}" th:src="@{${line.product.images[0].imageUrl}}" alt="">
+                    <img class="cl-img" th:if="${line.product.images.isEmpty()}" th:src="@{/images/placeholder.svg}" alt="">
+                </a>
+
+                <div>
+                    <a class="cl-name" th:href="@{/shop/product/{id}(id=${line.product.id})}" th:text="${line.product.name}">Producto</a>
+                    <div class="cl-store">Vendido por <span th:text="${line.product.store.name}">Tienda</span></div>
+                    <div class="cl-warn" th:if="${!line.available}">
+                        Stock insuficiente (disponibles: <span th:text="${line.product.stock}">0</span>). Ajusta la cantidad.
+                    </div>
+                    <form class="inline" th:action="@{/cart/remove/{id}(id=${line.itemId})}" method="post">
+                        <button type="submit" class="link-btn">Eliminar</button>
+                    </form>
+                </div>
+
+                <form class="cl-qty" th:action="@{/cart/update}" method="post">
+                    <input type="hidden" name="itemId" th:value="${line.itemId}">
+                    <input type="number" name="quantity" th:value="${line.quantity}" min="1" th:max="${line.product.stock}"
+                           onchange="this.form.submit()">
+                </form>
+
+                <div class="cl-price">$ <span th:text="${#numbers.formatDecimal(line.subtotal, 1, 'POINT', 0, 'COMMA')}">0</span></div>
+            </div>
+        </section>
+
+        <aside class="summary">
+            <h2>Resumen de la compra</h2>
+            <div class="summary-row">
+                <span>Productos (<span th:text="${cart.units}">0</span>)</span>
+                <span>$ <span th:text="${#numbers.formatDecimal(cart.total, 1, 'POINT', 0, 'COMMA')}">0</span></span>
+            </div>
+            <div class="summary-row"><span>Envío</span><span style="color:#00a650;font-weight:600">Gratis</span></div>
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span>$ <span th:text="${#numbers.formatDecimal(cart.total, 1, 'POINT', 0, 'COMMA')}">0</span></span>
+            </div>
+            <a th:href="@{/checkout}" class="btn">Continuar compra</a>
+            <a th:href="@{/shop}" class="btn btn-secondary">Seguir comprando</a>
+        </aside>
+    </div>
+</main>
+</body>
+</html>
